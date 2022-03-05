@@ -76,9 +76,9 @@ Random survival forests involves the following steps:
 
 4. Calculate CHF (cumulative hazard function) for each tree and average them to obtain the ensemble CHF.
 
-5. Use OOB data to calculate prediction error for the ensemble CHF. 
+5. Use OOB (out-of-bag) data to calculate prediction error for the ensemble CHF. 
 
-Note. The number of samples NOT are not drawn are called out-of-bag (OOB) data, which makes up of ~$37$% of the original data. 
+Note. OOB data is the number of samples that are NOT drawn, which makes up of ~$37$% of the original data. 
 
 
 ## Splitting Rules
@@ -95,7 +95,7 @@ H_h(t) = \sum_{t_{j,h}\leq t} \frac{d_{j,h}} {Y_{j,h}}, \ \ \ \ S_h(t) = \prod_{
 $$
 where $d_{j,h}$ is the number of deaths and $Y_{j,h}$ is the number of individuals at risk at time $t_{j,h}$.
 
-Since the tree is binary, X will fall into a unique terminal node $h$. The CHF and survival estimators are then equal to (estimated by) Nelson-Aalen and Kaplan-Meier estimators for X's terminal node
+Since the tree is binary, X will fall into a unique terminal node $h$, which is why the CHF and survival estimators equals to the Nelson-Aalen and Kaplan-Meier estimators for X's terminal node
 
 $$
 H(t|X)^{IB} = H_h(t), \ \ S(t|X)^{IB} = S_h(t), \ \ X \in h. 
