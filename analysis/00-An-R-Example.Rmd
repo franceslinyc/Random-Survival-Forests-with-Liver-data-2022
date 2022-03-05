@@ -1,0 +1,145 @@
+---
+title: "00-An-R-Example"
+author: "Frances Lin"
+date: "March 2022"
+output: pdf_document
+---
+
+```{r}
+# Load packages
+library(randomForestSRC)
+#library(ggRandomForests) # Require older version of R
+library(tidyverse)
+library(pander)
+library(ggplot2)
+```
+
+```{r}
+# Load data
+data(peakVO2, package = "randomForestSRC")
+```
+
+```{r}
+peakVO2 %>% head(3) %>% pander
+```
+
+```{r}
+# Fit RSF
+dta <- peakVO2
+obj <- rfsrc(Surv(ttodead, died)~., dta,
+             ntree = 1000, nodesize = 5, nsplit = 50, importance = TRUE) # This takes a while
+```
+
+```{r}
+# Print the outcome 
+print(obj)
+```
+
+```{r}
+# Get the C-index 
+get.cindex(obj$yvar[,1], obj$yvar[,2], obj$predicted.oob)
+```
+
+```{r}
+df <- obj$xvar
+peak_vo2 <- df[,30]
+quantile(peak_vo2)
+```
+
+Patient(s) info:
+
+```{r}
+# Plot the estimated survival functions
+newdata <- data.frame(lapply(1:ncol(obj$xvar),function(i){median(obj$xvar[,i])}))
+colnames(newdata) <- obj$xvar.names
+newdata1 <- newdata2 <- newdata
+newdata1[,which(obj$xvar.names == "peak_vo2")] <- 12.8 # NA
+newdata2[,which(obj$xvar.names == "peak_vo2")] <- 19.3 # NA
+newdata <- rbind(newdata1,newdata2)
+newdata[1,30] = 12.8 # Now it works
+newdata[2,30] = 19.3
+newdata %>% pander
+```
+
+```{r}
+y.pred <- predict(obj,newdata = rbind(newdata,obj$xvar)[1:2,])
+y.pred
+```
+
+```{r}
+class(y.pred) # Cannot plot in ggplot. Need to convert to df. 
+```
+
+```{r}
+# Convert to a df 
+y_pred <- tibble(
+  time.interest = y.pred$time.interest, 
+  # Change legent label here instead...
+  PeakVO2_12.8 = y.pred$survival[1,], 
+  PeakVO2_19.3 = y.pred$survival[2,] # Sth is off. These two rows are the same.
+)
+```
+
+```{r}
+# Convert to long table for plotting purpose
+y_pred_long <- pivot_longer(y_pred, cols = 2:3, names_to = "patient", values_to = "time")
+```
+
+```{r}
+# Change patient to factor 
+y_pred_long$patient = factor(y_pred_long$patient)
+```
+
+```{r}
+#which(y_pred_long$patient == "survival")
+```
+
+```{r}
+#str(y_pred_long)
+```
+
+Plot of Predicted survival curves of two hypothetical individuals:   
+```{r}
+ggplot(data = y_pred_long, aes(x = time.interest, y = time, color = patient)) + 
+  geom_line() + 
+  labs(x = "Time(year)", y = "Survival") -> p1 #+ 
+  #scale_fill_discrete(labels = c("A", "B")) # Does not work
+p1
+```
+
+```{r}
+# Calculate VIMP (Variable Importance)
+jk.obj <- subsample(obj)
+```
+
+```{r}
+# Plot it 
+p2 <- plot(jk.obj, xlab = "Variable Importance (x 100)")
+p2
+```
+
+Ran out of time to convert it to ggplot. 
+
+```{r}
+# jk.obj
+```
+
+```{r}
+#as.data.frame(jk.obj) 
+```
+
+```{r}
+#ggplot(jk.obj)
+```
+
+```{r}
+# Write results
+library(here)
+write_rds(p1, here("results", "p1.rds"))
+write_rds(p2, here("results", "p2.rds"))
+```
+
+
+## Reference
+
+H. Ishwaran, M. S. Lauer, E. H. Blackstone, M. Lu, and U. B. Kogalur. 2021. “randomForestSRC: random survival forests vignette.” https://luminwin.github.io/randomForestSRC/articles/survival.html.
