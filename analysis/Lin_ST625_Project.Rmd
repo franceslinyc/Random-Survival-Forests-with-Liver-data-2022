@@ -1,9 +1,11 @@
 ---
-title: "Random Survival Forests with An Example of Chronic Liver Disease"
+title: "Random Survival Forests with An Example of Systolic Heart Failure"
 author: "Frances Lin"
 date: "March 2022"
 output: pdf_document
 ---
+
+**Write directly to Lin_ST625_Presentation.Rmd since report is optional.**
 
 ## Abstract
 
@@ -32,9 +34,6 @@ Random survival forests involves the following steps:
 5. Use OOB data to calculate prediction error for the ensemble CHF. 
 
 Note. The number of samples NOT are not drawn are called out-of-bag (OOB) data, which makes up of ~$37$% of the original data. 
-
-
-
 
 ## Discussion 
 
