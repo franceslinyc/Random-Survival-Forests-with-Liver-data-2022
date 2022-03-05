@@ -1,5 +1,5 @@
 ---
-title: "Random Survival Forests with An Example of Chronic Liver Disease"
+title: "Random Survival Forests with An Example of Systolic Heart Failure"
 author: "Frances Lin"
 date: "March 2022"
 output: beamer_presentation
@@ -23,17 +23,17 @@ In this paper, Ishwaran et al. (2008) introduce random survival forests (RSF), a
 
 * Introduction: RF vs RSF
 
-* (High-Level) Algorithm
+* **Algorithm (High-Level)**
+ 
+  + **Splitting Rules**
 
-  + Ensemble CHF (Cumulative Hazard Function)
+  + **Terminal Node Statistics: CHF (Cumulative Hazard Function) & Survival Function**
 
-  + Ensemble Mortality
-
-  + OOB (out-of-bag) Prediction Error
+  + **OOB (out-of-bag) Prediction Error**
 
 * Discussion 
 
-* An Example (If Time Allows)
+* A R Example (If Time Allows)
 
 
 
@@ -48,19 +48,23 @@ RF works by
 
 2. and then at each node of the tree, randomly selecting subsets of predictors for splitting. 
 
-The final outcome is based on majority voting (for classification) or averaging (for regression). These features enables RF to approximate rich classes of functions while keeping error low. 
+The final outcome is based on majority voting (for classification) or averaging (for regression). 
+
+RF is able to approximate rich classes of functions while keeping error low. 
 
 
 
 
 ## Introduction: RF vs RSF 
 
-RSF adheres strictly to Breiman's RF (2003). RF is designed such that the tree-growing process takes into account the outcome. Thus, in right-censored survival settings, the splitting rule, the predicted results and the measure of prediction accuracy in RSF must incorporate survival information. 
+RSF adheres strictly to Breiman's RF (2003). RF is designed such that the tree-growing process takes into account the outcome. 
+
+In right-censored survival settings, the splitting rule, the predicted results and the measure of prediction accuracy in RSF must incorporate survival information. 
 
 
 
 
-## (High-Level) Algorithm
+## Algorithm (High-Level) 
 
 Random survival forests involves the following steps: 
 
@@ -77,32 +81,89 @@ Random survival forests involves the following steps:
 Note. The number of samples NOT are not drawn are called out-of-bag (OOB) data, which makes up of ~$37$% of the original data. 
 
 
-
-
-## Ensemble CHF (Cumulative Hazard Function)
-
-CHF is 
-
-Ensemble CHF is obtained by averaging over $B$ survival trees. 
+## Splitting Rules
 
 
 
 
-## Ensemble Mortality 
+## Terminal Node Statistics
 
-Mortality is 
+The CHF and survival function for each terminal node $h$ are estimated using the bootstrapped Nelson-Aalen and Kaplan-Meier estimators
 
-Ensemble mortality is...... 
+$$
+H_h(t) = \sum_{t_{j,h}\leq t} \frac{d_{j,h}} {Y_{j,h}}, \ \ \ \ S_h(t) = \prod_{t_{j,h}\leq t} (1 - \frac{d_{j,h}} {Y_{j,h}}), 
+$$
+where $d_{j,h}$ is the number of deaths and $Y_{j,h}$ is the number of individuals at risk at time $t_{j,h}$.
 
+Since the tree is binary, X will fall into a unique terminal node $h$. The CHF and survival estimators are then equal to (estimated by) Nelson-Aalen and Kaplan-Meier estimators for X's terminal node
 
+$$
+H(t|X)^{IB} = H_h(t), \ \ S(t|X)^{IB} = S_h(t), \ \ X \in h. 
+$$
 
+## Terminal Node Statistics
+ 
+The ensemble CHF and survival function for IB (in-bag) and OOB (out-of-bag) are calculated by averaging the tree estimators
 
-## OOB (out-of-bag) Prediction Error
+$$
+H(t|X)^{IB} = \frac{1} {ntree} \sum_{b=1}^{ntree} H_b(t|X), \ \ S(t|X)^{IB} = \frac{1} {ntree} \sum_{b=1}^{ntree} S_b(t|X),
+$$
+
+$$
+H_i^{OOB}(t) = \frac{1} {|O_i|} \sum_{b\in O_i} H_b^{IB}(t|X_i), \ \ S_i^{OOB}(t) = \frac{1} {|O_i|} \sum_{b\in O_i} S_b^{IB}(t|X_i),
+$$
+where $O_i$ records the number of OOB case. 
+
+Note. IB estimators are used for prediction, whereas OOB estimators are used for inference (on the training data) and prediction error estimation. 
+
+## Prediction Error
 
 
 ## Discussion 
 
-## An Example (If Time Allows)
+## A R Example (If Time Allows)
+
+Data `peakVO2` can be loaded from **R** package `randomForestSRC`. 
+
+This survival data consists of $n=2231$ adult patients with systolic heart failure (Hsich et al., 2011). 
+
+- All patients underwent cardiopulmonary stress testing, and a total of 742 patients died during a mean follow-up of 5 years (maximum for survivors, 11 years). 
+
+- The outcome is all-cause mortality, and a total of $p=39$ predictors were measured for each patient including demographic, cardiac and noncardiac comorbidity, and stress testing information.
+
+
+
+## A R Example
+
+RSF results using the `rfsrc` function of **R** package `randomForestSRC`: 
+
+```{}
+                         Sample size: 2231
+                    Number of deaths: 726
+                     Number of trees: 1000
+           Forest terminal node size: 5
+       Average no. of terminal nodes: 259.547
+No. of variables tried at each split: 7
+              Total no. of variables: 39
+       Resampling used to grow trees: swor
+    Resample size used to grow trees: 1410
+                            Analysis: RSF
+                              Family: surv
+                      Splitting rule: logrank *random*
+       Number of random split points: 50
+                          (OOB) CRPS: 0.15508379
+   (OOB) Requested performance error: 0.29965793
+```
+
+## A R Example
+
+Plot of predicted survival curves of two hypothetical individuals: 
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(here)
+p1 <- readRDS(here("results", "p1.rds"))
+p1
+```
 
 ## Reference
 
