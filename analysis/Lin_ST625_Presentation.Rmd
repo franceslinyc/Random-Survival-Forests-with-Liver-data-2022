@@ -116,7 +116,31 @@ where $O_i$ records the number of OOB case.
 
 Note. IB estimators are used for prediction, whereas OOB estimators are used for inference (on the training data) and prediction error estimation. 
 
-## Prediction Error
+## Prediction Error: PE & C-Index
+
+Prediction error (PE) is defined as $1-C$, where $C$ is Harrell’s concordance index (C-index) (Harrell Jr et al., 1982). PE 
+
+- is between 0 and 1. 
+
+- measures how well the predictor correctly ranks two random individuals in terms of survival. (e.g. PE = 0.5: no better than random guessing.) 
+
+Harrell’s C-index is a popular means for assessing prediction performance in survival settings. The C-index
+
+- estimates the probability that, in a randomly selected pair of cases, the case that fails first had a *worst predicted outcome*.  
+
+- is interpreted as a misclassification probability.  
+
+- does not depend on choosing a fixed time for evaluation of the model.
+
+- accounts for censoring of individuals.
+
+
+## Prediction Error: Mortality & Ensemble Mortality
+
+To compute the C-index, we use mortality to define *worst predicted outcome*. 
+
+
+
 
 
 ## Discussion 
