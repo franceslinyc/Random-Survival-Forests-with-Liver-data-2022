@@ -18,31 +18,31 @@ Final project and week 1-9 assignments for ST625 Survival Analysis (GLMs II) at 
 
 **Assignment 3:** 
 
-[Topic](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW3.pdf)
+[Censoring type, Likelihood function for right-censored data, Worcester Heart Attack data](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW3.pdf)
 
 **Assignment 4:** 
 
-[Topic](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW4.pdf)
+[Kaplan-Meier estimator, Life-Table method, Plot of survival curves](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW4.pdf)
 
 **Assignment 5:** 
 
-[Topic](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW5.pdf)
+[Log-rank test, Plot of survival curves, Hypothesis testing](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW5.pdf)
 
 **Assignment 6:** 
 
-[Topic](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW6.pdf)
+[Exponential regression model, Weibull regression model, Model fit](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW6.pdf)
 
 **Assignment 7:** 
 
-[Topic](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW7.pdf)
+[Kaplan-Meier method, Log-rank test, Model assumption, Likelihood ratio test, Wald test, Hypothesis testing](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW7.pdf)
 
 **Assignment 8:** 
 
-[Topic](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW8.pdf)
+[Cox PH model, Model assumption, Hypothesis testing, MPLE, Plot of survival curves](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW8.pdf)
 
 **Assignment 9:** 
 
-[Topic]()
+[Cox PH model, ]()
 
 Note. They may contain errors. 
 
