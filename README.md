@@ -8,9 +8,13 @@ Random Survival Forests with An Example of Systolic Heart Failure
 
 Frances Lin 
 
-**Description:** Expand the RSF (Random Survival Forests) algorithm and include an example of systolic heart failure using the **R** package `randomForestSRC`. 
+**Description:** 
 
-**Documentation:** Presentation slides can be found [here](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/analysis/Lin_ST625_Presentation.pdf).
+Expand the RSF (Random Survival Forests) algorithm and include an example of systolic heart failure using the **R** package `randomForestSRC`. 
+
+**Documentation:** 
+
+Presentation slides can be found [here](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/analysis/Lin_ST625_Presentation.pdf).
 
 
 
