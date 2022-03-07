@@ -22,7 +22,7 @@ Final project and week 1-9 assignments for ST625 Survival Analysis (GLMs II) at 
 
 **Assignment 4:** 
 
-[Kaplan-Meier estimator, Life-Table method, Plot of survival curves](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW4.pdf)
+[Kaplan-Meier estimator, Life-Table method, Plot of survival curves, Worcester Heart Attack data](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW4.pdf)
 
 **Assignment 5:** 
 
@@ -38,11 +38,13 @@ Final project and week 1-9 assignments for ST625 Survival Analysis (GLMs II) at 
 
 **Assignment 8:** 
 
-[Cox PH model, Model assumption, Hypothesis testing, MPLE, Plot of survival curves](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW8.pdf)
+[Cox PH model, Model assumption, Hypothesis testing, MPLE, Plot of survival curves, AIDS/HIV+ data](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW8.pdf)
 
 **Assignment 9:** 
 
-[Cox PH model, ]()
+[Cox PH model, Martingale residuals, Model diagnosis, AIDS/HIV+ data]()
 
-Note. They may contain errors. 
+Note. These reports may contain errors. 
+
+
 
