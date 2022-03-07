@@ -11,25 +11,25 @@ output: beamer_presentation
 
 ## Background and Objective
 
-Random forests (RF) has shown to be highly applicable and accurate, comparable to state-of-art methods such as bagging, boosting, and support vector machines. However, RF have primarily been used for classification and regression tasks. 
+Random forests (RF) has shown to be highly applicable and accurate, comparable to state-of-art methods such as bagging, boosting, and support vector machines. 
 
-On the other hand, methods that are commonly used for survival data rely on assumptions such as proportional hazards that is often too restrictive.
+However, RF have primarily been used for classification and regression tasks. On the other hand, methods that are commonly used for survival data rely on assumptions such as proportional hazards that is often too restrictive.
 
 In this paper, Ishwaran et al. (2008) introduce random survival forests (RSF), an extension of Breiman's RF (2001). RSF incorporates survival information and is designed for analysis of right-censored data. 
 
 ## Outline
 
-* Introduction: RF 
+* Re/Preview: Random Forests 
 
-* Introduction: RF vs RSF
+* Introduction: Random Forests vs Random Survival Forests
 
-* **Algorithm (High-Level)**
+* **Algorithm**
  
-  + **Splitting Rules**
+  + **Splitting Rules:**  **Log-rank split-statistic**
 
-  + **Terminal Node Statistics: CHF (Cumulative Hazard Function) & Survival Function**
+  + **Terminal Node Statistics:** **Nelson-Aalen,** **Kaplan-Meier estimators**
 
-  + **OOB (out-of-bag) Prediction Error**
+  + **Prediction Error**: **Mortality,** **C-Index**
 
 * Discussion 
 
@@ -38,7 +38,7 @@ In this paper, Ishwaran et al. (2008) introduce random survival forests (RSF), a
 
 
 
-## Introduction: RF 
+## Re/Preview: Random Forests 
 
 Random forests (RF) is made up from a collection of trees, and randomness is introduced in the following tree-growing process. 
 
@@ -55,7 +55,7 @@ RF is able to approximate rich classes of functions while keeping error low.
 
 
 
-## Introduction: RF vs RSF 
+## Introduction: Random Forests vs Random Survival Forests
 
 RSF adheres strictly to Breiman's RF (2003). RF is designed such that the tree-growing process takes into account the outcome. 
 
@@ -64,7 +64,7 @@ In right-censored survival settings, the splitting rule, the predicted results a
 
 
 
-## Algorithm (High-Level) 
+## (High-Level) Algorithm 
 
 Random survival forests involves the following steps: 
 
@@ -83,7 +83,25 @@ Note. OOB data is the number of samples that are NOT drawn, which makes up of ~$
 
 ## Splitting Rules
 
+Similar to CART (Classification and Regression Trees), survival trees are also binary. Each root node is split to a left and right daugter nodes. A good split for a node should maximize survival differences. 
 
+By default, the **R** package `randomForestSRC` (`randomSurvivalForest` is removed from the CRAN repository) uses the log-rank test statistic since log-rank test has traditionally been used for testing two-sample survival data. 
+
+## Splitting Rules
+
+The best split is decided by finding the predictor $X^*$ and split-value $c^*$ such that, for all $X$ and $c$, 
+
+$$
+|L(X^*, c^*)| \geq |L(X, c)|,
+$$
+
+where $|L(X, c)|$ measures node separation and the log-rank split-statistic is given as
+
+$$
+L(X,c) = \frac{\sum_{j=1}^m (d_{j,L} - Y_{j,L} \frac{d_j} {Y_j}) } {\sqrt{\sum_{j=1}^m d_j (1 - \frac{Y_{j,L}} {Y_j}) (\frac{Y_j - d_j} {Y_j - 1})}}
+$$
+
+Note. This is the same test statistic given in the long-rank test lecture. 
 
 
 ## Terminal Node Statistics
@@ -93,13 +111,16 @@ The CHF and survival function for each terminal node $h$ are estimated using the
 $$
 H_h(t) = \sum_{t_{j,h}\leq t} \frac{d_{j,h}} {Y_{j,h}}, \ \ \ \ S_h(t) = \prod_{t_{j,h}\leq t} (1 - \frac{d_{j,h}} {Y_{j,h}}), 
 $$
-where $d_{j,h}$ is the number of deaths and $Y_{j,h}$ is the number of individuals at risk at time $t_{j,h}$.
+where $d_{j,h}$ is the number of events (e.g. deaths) and $Y_{j,h}$ is the number of individuals at risk at time $t_{j,h}$.
 
 Since the tree is binary, X will fall into a unique terminal node $h$, which is why the CHF and survival estimators equals to the Nelson-Aalen and Kaplan-Meier estimators for X's terminal node
 
 $$
 H(t|X)^{IB} = H_h(t), \ \ S(t|X)^{IB} = S_h(t), \ \ X \in h. 
 $$
+
+Note. $H(t) = -log(S(t))$. 
+
 
 ## Terminal Node Statistics
  
@@ -116,7 +137,8 @@ where $O_i$ records the number of OOB case.
 
 Note. IB estimators are used for prediction, whereas OOB estimators are used for inference (on the training data) and prediction error estimation. 
 
-## Prediction Error: PE & C-Index
+
+## Prediction Error: PE & the C-Index
 
 Prediction error (PE) is defined as $1-C$, where $C$ is Harrell’s concordance index (C-index) (Harrell Jr et al., 1982). PE 
 
@@ -126,24 +148,49 @@ Prediction error (PE) is defined as $1-C$, where $C$ is Harrell’s concordance 
 
 Harrell’s C-index is a popular means for assessing prediction performance in survival settings. The C-index
 
-- estimates the probability that, in a randomly selected pair of cases, the case that fails first had a *worst predicted outcome*.  
+- estimates the probability that, in a randomly selected pair of cases, the case that fails first had a *worst predicted outcome* (next: mortality).  
 
 - is interpreted as a misclassification probability.  
 
 - does not depend on choosing a fixed time for evaluation of the model.
 
-- accounts for censoring of individuals.
+- specifically accounts for censoring of individuals.
 
 
-## Prediction Error: Mortality & Ensemble Mortality
+## Prediction Error: Mortality 
 
-To compute the C-index, we use mortality to define *worst predicted outcome*. 
+To compute the C-index, the *worst predicted outcome* is defined using mortality. 
+
+Mortality measures the number of deaths expected under a $H_0$ of similar survival behavior. It is defined as the expected (predicted) value for the CHF summed over time $T_j$, and, for $i$, 
+
+$$
+M_i = E_i (\sum_{i=1}^n H (T_j | x_i)), 
+$$
+where $E_i$ is the expectation under the $H_0$ that all $j$ are similar to $i$. 
 
 
+## Prediction Error: Ensemble Mortality & the C-Index
 
+The ensemble Mortality for $i$ for OOB is then defined as 
+
+$$
+\bar{M}_i^{OOB} = \sum_{j=1}^m \bar{H}_i^{OOB} (t_j), \ \ i = 1,...,n. 
+$$
+
+The OOB ensemble mortality is used to calculate the C-index. Individual $i$ is said to have a *worst (predicted) outcome* than $j$ if 
+
+$$
+\bar{M}_i^{OOB} > \bar{M}_j^{OOB}. 
+$$
+
+
+Note. Precise steps for calculating the C-Index are omitted here. The idea is to form all possible pairs while omitting pairs shoe shorter survival time is censored. 
 
 
 ## Discussion 
+
+
+
 
 ## A R Example (If Time Allows)
 
@@ -179,6 +226,8 @@ No. of variables tried at each split: 7
    (OOB) Requested performance error: 0.29965793
 ```
 
+
+
 ## A R Example
 
 Plot of predicted survival curves of two hypothetical individuals: 
@@ -189,7 +238,19 @@ p1 <- readRDS(here("results", "p1.rds"))
 p1
 ```
 
+
 ## Reference
 
+Ishwaran, H., Kogalur, U. B., Blackstone, E. H., & Lauer, M. S. (2008). Random survival forests. The Annals of Applied Statistics, 2(3), 841–860. JSTOR.
 
+Ishwaran, H., Lauer, M. S., Blackstone, E. H., Lu, M., & Kogalur, U. B. (2022). Random survival forests. Fast Unified Random Forests with randomForestSRC. https://luminwin.github.io/randomForestSRC/articles/survival.html
+  
+  
+## Thank you!
+
+Random Survival Forests with An Example of Systolic Heart Failure
+
+Frances Lin
+
+PhD student, Dept. of Statistics, Oregon State University
 
