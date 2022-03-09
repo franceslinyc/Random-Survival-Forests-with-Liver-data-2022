@@ -13,7 +13,7 @@ output: beamer_presentation
 
 Random forests (RF) has shown to be highly applicable and accurate, comparable to state-of-art methods such as bagging, boosting, and support vector machines. 
 
-However, RF have primarily been used for classification and regression tasks. On the other hand, methods that are commonly used for survival data rely on assumptions such as proportional hazards that is often too restrictive.
+However, RF have primarily been used for classification and regression tasks. On the other hand, common survival methods rely on assumptions such as proportional hazards that is often too restrictive.
 
 In this paper, Ishwaran et al. (2008) introduce random survival forests (RSF), an extension of Breiman's RF (2001). RSF incorporates survival information and is designed for analysis of right-censored data. 
 
@@ -98,8 +98,9 @@ $$
 where $|L(X, c)|$ measures node separation and the log-rank split-statistic is given as
 
 $$
-L(X,c) = \frac{\sum_{j=1}^m (d_{j,L} - Y_{j,L} \frac{d_j} {Y_j}) } {\sqrt{\sum_{j=1}^m d_j (1 - \frac{Y_{j,L}} {Y_j}) (\frac{Y_j - d_j} {Y_j - 1})}}
+L(X,c) = \frac{\sum_{j=1}^m (d_{j,L} - Y_{j,L} \frac{d_j} {Y_j}) } {\sqrt{\sum_{j=1}^m d_j (1 - \frac{Y_{j,L}} {Y_j}) (\frac{Y_j - d_j} {Y_j - 1})}} _{.}
 $$
+
 
 Note. This is the same test statistic given in the long-rank test lecture. 
 
@@ -184,12 +185,14 @@ $$
 $$
 
 
-Note. Precise steps for calculating the C-Index are omitted here. The idea is to form all possible pairs while omitting pairs shoe shorter survival time is censored. 
+Note. Precise steps for calculating the C-Index are omitted here. The idea is to form all possible pairs while omitting pairs whose shorter survival time is censored. 
 
 
 ## Discussion 
 
+Other measures such as VIMP (variable importance) can be computed and are useful to uncover complex relationships. 
 
+It took a while for the the codes to run. I did some digging and found out that the recursive `randomForestSRC` algorithm is parallelized and trees are grown concurrently, not iteratively. 
 
 
 ## A R Example (If Time Allows)
@@ -243,7 +246,7 @@ p1
 
 Ishwaran, H., Kogalur, U. B., Blackstone, E. H., & Lauer, M. S. (2008). Random survival forests. The Annals of Applied Statistics, 2(3), 841–860. JSTOR.
 
-Ishwaran, H., Lauer, M. S., Blackstone, E. H., Lu, M., & Kogalur, U. B. (2022). Random survival forests. Fast Unified Random Forests with randomForestSRC. https://luminwin.github.io/randomForestSRC/articles/survival.html
+Ishwaran, H., Lauer, M. S., Blackstone, E. H., Lu, M., & Kogalur, U. B. (2021). randomForestSRC: random survival forests vignette. https://luminwin.github.io/randomForestSRC/articles/survival.html. 
   
   
 ## Thank you!
