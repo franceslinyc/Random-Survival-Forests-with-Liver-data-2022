@@ -39,15 +39,15 @@ Week 4:
 
 Week 5:
 
-[Log-rank test, Plot of survival curves, Hypothesis testing](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW5.pdf)
+[Log-rank test, Plot of survival curves, Hypothesis testing, Tongue Tumor data](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW5.pdf)
 
 Week 6:
 
-[Exponential regression model, Weibull regression model, Model fit](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW6.pdf)
+[Exponential regression model, Weibull regression model, Model fit, Failure data](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW6.pdf)
 
 Week 7:
 
-[Kaplan-Meier method, Log-rank test, Model assumption, Likelihood ratio test, Wald test, Hypothesis testing](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW7.pdf)
+[Kaplan-Meier method, Log-rank test, Model assumption, Likelihood ratio test, Wald test, Hypothesis testing, Renal Artery Disease data](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW7.pdf)
 
 Week 8:
 
@@ -55,9 +55,8 @@ Week 8:
 
 Week 9: 
 
-[Cox PH model, Martingale residuals, Model diagnosis, AIDS/HIV+ data]()
+[Cox PH model, Martingale residuals, Model diagnosis, LRT for (nested) model comparison, AIDS/HIV+ data](https://github.com/franceslinyc/Random-Survival-Forests-with-Liver-data-2022/blob/main/assignments/Lin_ST625_HW9.pdf)
 
 Note. These reports may contain errors. 
-
 
 
