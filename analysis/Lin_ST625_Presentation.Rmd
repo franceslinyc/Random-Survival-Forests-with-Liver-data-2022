@@ -19,13 +19,13 @@ In this paper, Ishwaran et al. (2008) introduce random survival forests (RSF), a
 
 ## Outline
 
-* Re/Preview: Random Forests 
+* Pre/Review: Random Forests 
 
 * Introduction: Random Forests vs Random Survival Forests
 
 * **Algorithm**
  
-  + **Splitting Rules:**  **Log-rank split-statistic**
+  + **Splitting Rules:** **Log-rank split-statistic**
 
   + **Terminal Node Statistics:** **Nelson-Aalen,** **Kaplan-Meier estimators**
 
@@ -38,17 +38,17 @@ In this paper, Ishwaran et al. (2008) introduce random survival forests (RSF), a
 
 
 
-## Re/Preview: Random Forests 
+## Pre/Review: Random Forests 
 
 Random forests (RF) is made up from a collection of trees, and randomness is introduced in the following tree-growing process. 
 
 RF works by 
 
-1. first randomly drawing bootstrap sample of data and using it to grow a tree 
+1. first randomly drawing bootstrap sample of data and using it to grow a tree. 
 
-2. and then at each node of the tree, randomly selecting subsets of predictors for splitting. 
+2. then at each node of the tree, randomly selecting subsets of predictors for splitting. 
 
-The final outcome is based on majority voting (for classification) or averaging (for regression). 
+The final outcome is based on either majority voting (for classification) or averaging (for regression). 
 
 RF is able to approximate rich classes of functions while keeping error low. 
 
@@ -57,14 +57,24 @@ RF is able to approximate rich classes of functions while keeping error low.
 
 ## Introduction: Random Forests vs Random Survival Forests
 
-RSF adheres strictly to Breiman's RF (2003). RF is designed such that the tree-growing process takes into account the outcome. 
+RSF adheres to the principle of Breiman's RF (2003). RF is designed such that all aspects of the tree-growing process takes into account the outcome. These have some comprises. 
 
-In right-censored survival settings, the splitting rule, the predicted results and the measure of prediction accuracy in RSF must incorporate survival information. 
+In right-censored survival settings, 
+
+- the splitting rule, 
+
+- tree node impurity, 
+
+- the predicted results, 
+
+- the measure of prediction accuracy, etc.
+
+in RSF must incorporate survival and censoring information. 
 
 
 
 
-## (High-Level) Algorithm 
+## Algorithm (High-Level) 
 
 Random survival forests involves the following steps: 
 
@@ -83,9 +93,10 @@ Note. OOB data is the number of samples that are NOT drawn, which makes up of ~$
 
 ## Splitting Rules
 
-Similar to CART (Classification and Regression Trees), survival trees are also binary. Each root node is split to a left and right daugter nodes. A good split for a node should maximize survival differences. 
+Similar to CART (Classification and Regression Trees), survival trees are also binary. Each root node is split to a left and right daughter nodes, and a good split for a node should maximize survival differences. 
 
-By default, the **R** package `randomForestSRC` (`randomSurvivalForest` is removed from the CRAN repository) uses the log-rank test statistic since log-rank test has traditionally been used for testing two-sample survival data. 
+The log-rank test statistic is used by default in the **R** package `randomForestSRC` uses since log-rank test has traditionally been used for testing two-sample survival data. 
+
 
 ## Splitting Rules
 
@@ -102,7 +113,7 @@ L(X,c) = \frac{\sum_{j=1}^m (d_{j,L} - Y_{j,L} \frac{d_j} {Y_j}) } {\sqrt{\sum_{
 $$
 
 
-Note. This is the same test statistic given in the long-rank test lecture. 
+Note. This is the exact same test statistic of long-rank test. 
 
 
 ## Terminal Node Statistics
@@ -190,9 +201,11 @@ Note. Precise steps for calculating the C-Index are omitted here. The idea is to
 
 ## Discussion 
 
-Other measures such as VIMP (variable importance) can be computed and are useful to uncover complex relationships. 
+1. Other measures such as VIMP (variable importance) can be computed and are useful to uncover complex relationships. 
 
-It took a while for the the codes to run. I did some digging and found out that the recursive `randomForestSRC` algorithm is parallelized and trees are grown concurrently, not iteratively. 
+2. The codes took some time to run. It turned out that the recursive `randomForestSRC` algorithm is already parallelized and trees are grown concurrently, not iteratively. 
+
+3. Multivariate trees for multivariate outcomes are possible to construct using the package. However, under this setting, correlation has not been taken into account. 
 
 
 ## A R Example (If Time Allows)
@@ -201,7 +214,7 @@ Data `peakVO2` can be loaded from **R** package `randomForestSRC`.
 
 This survival data consists of $n=2231$ adult patients with systolic heart failure (Hsich et al., 2011). 
 
-- All patients underwent cardiopulmonary stress testing, and a total of 742 patients died during a mean follow-up of 5 years (maximum for survivors, 11 years). 
+- All patients underwent cardiopulmonary stress testing, and a total of 742 patients died during a mean follow-up of 5 years (maximum for survivors, 11 years) at the Cleveland Clinic. 
 
 - The outcome is all-cause mortality, and a total of $p=39$ predictors were measured for each patient including demographic, cardiac and noncardiac comorbidity, and stress testing information.
 
