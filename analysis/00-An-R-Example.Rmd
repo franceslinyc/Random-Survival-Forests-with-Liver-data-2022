@@ -2,7 +2,9 @@
 title: "00-An-R-Example"
 author: "Frances Lin"
 date: "March 2022"
-output: pdf_document
+output:
+  html_document:
+    df_print: paged
 ---
 
 ```{r}
@@ -137,6 +139,12 @@ Ran out of time to convert it to ggplot.
 library(here)
 write_rds(p1, here("results", "p1.rds"))
 write_rds(p2, here("results", "p2.rds"))
+```
+
+```{r}
+# Visualize one tree
+mtcars.unspv <- rfsrc(data = dta) 
+plot(get.tree(mtcars.unspv, 5)) # This is one tree?
 ```
 
 
