@@ -95,7 +95,7 @@ Note. OOB data is the number of samples that are NOT drawn, which makes up of ~$
 
 Similar to CART (Classification and Regression Trees), survival trees are also binary. Each root node is split to a left and right daughter nodes, and a good split for a node should maximize survival differences. 
 
-The log-rank test statistic is used by default in the **R** package `randomForestSRC` uses since log-rank test has traditionally been used for testing two-sample survival data. 
+By default, the log-rank test statistic is used in the **R** package `randomForestSRC` since log-rank test has traditionally been used for testing two-sample survival data. 
 
 
 ## Splitting Rules
@@ -113,7 +113,7 @@ L(X,c) = \frac{\sum_{j=1}^m (d_{j,L} - Y_{j,L} \frac{d_j} {Y_j}) } {\sqrt{\sum_{
 $$
 
 
-Note. This is the exact same test statistic of long-rank test. 
+Note. This is the exact same test statistic of the long-rank test. 
 
 
 ## Terminal Node Statistics
