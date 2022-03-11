@@ -78,7 +78,7 @@ in RSF must incorporate survival and censoring information.
 
 Random survival forests involves the following steps: 
 
-1. Randomly draw $B$ bootstrap samples from the original data and grow a survival tree for each bootstrap sample. 
+1. Randomly draw $B$ bootstrap samples from the original data and grow a survival tree for each bootstrap sample. *(Each bootstrap sample exclude OOB data.)*
 
 2. At each node of the tree, randomly select $p$ predictors. 
 
@@ -86,9 +86,9 @@ Random survival forests involves the following steps:
 
 4. Calculate CHF (cumulative hazard function) for each tree and average them to obtain the ensemble CHF.
 
-5. Use OOB (out-of-bag) data to calculate prediction error for the ensemble CHF. 
+5. Use OOB data to calculate prediction error for the ensemble CHF. 
 
-Note. OOB data is the number of samples that are NOT drawn, which makes up of ~$37$% of the original data. 
+Note. OOB (out-of-bag) data is the number of samples that are NOT drawn, which makes up of ~$37$% of the original data. 
 
 
 ## Splitting Rules
@@ -113,7 +113,7 @@ L(X,c) = \frac{\sum_{j=1}^m (d_{j,L} - Y_{j,L} \frac{d_j} {Y_j}) } {\sqrt{\sum_{
 $$
 
 
-Note. This is the exact same test statistic of the long-rank test. 
+Note. This is the exact same test statistic of the log-rank test. 
 
 
 ## Terminal Node Statistics
@@ -203,7 +203,7 @@ Note. Precise steps for calculating the C-Index are omitted here. The idea is to
 
 1. Other measures such as VIMP (variable importance) can be computed and are useful to uncover complex relationships. 
 
-2. The codes took some time to run. It turned out that the recursive `randomForestSRC` algorithm is already parallelized and trees are grown concurrently, not iteratively. 
+2. The codes took some time to run. It turned out that the recursive `randomForestSRC` algorithm is already parallelized and trees are grown concurrently, not iteratively. (More can be found: [here](https://luminwin.github.io/randomForestSRC/articles/parallel.html) and [here](https://luminwin.github.io/randomForestSRC/articles/hybrid.html).)
 
 3. Multivariate trees for multivariate outcomes are possible to construct using the package. However, under this setting, correlation has not been taken into account. 
 
